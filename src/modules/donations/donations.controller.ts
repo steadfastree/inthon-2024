@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { DonationStatus } from 'src/common/enums/donation-status.enum';
 
 @ApiTags('기부')
 @Controller('donations')
@@ -16,5 +17,15 @@ export class DonationsController {
   @Get()
   getDonations() {
     return [];
+  }
+
+  @ApiOperation({ summary: '기부 상태 업데이트' })
+  @ApiResponse({ status: 200, description: '기부 상태 업데이트 성공' })
+  @Put(':donationId')
+  updateDonation(
+    @Param('donationId') donationId: string,
+    @Body('status') status: DonationStatus,
+  ) {
+    return {};
   }
 }

@@ -15,7 +15,7 @@ export class CampaignsController {
   @ApiOperation({ summary: '캠페인 상세정보 조회' })
   @ApiResponse({ status: 200, description: '캠페인 상세정보 조회 성공' })
   @Get(':campaignId')
-  getCampaign(@Param('campaignId') campaignId: string) {
+  getCampaign(@Param('campaignId') campaignId: number) {
     return {};
   }
 
