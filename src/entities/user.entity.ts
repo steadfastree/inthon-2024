@@ -13,7 +13,7 @@ import { Campaign } from './campaign.entity';
 import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class User extends TimeStampEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 

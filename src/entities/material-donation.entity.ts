@@ -11,7 +11,7 @@ import { Donation } from './donation.entity';
 import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class MaterialDonation extends TimeStampEntity {
+export class MaterialDonation {
   @PrimaryGeneratedColumn()
   id: number;
 

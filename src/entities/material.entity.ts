@@ -10,7 +10,7 @@ import { MaterialDonation } from './material-donation.entity';
 import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Material extends TimeStampEntity {
+export class Material {
   @PrimaryGeneratedColumn()
   id: number;
 
