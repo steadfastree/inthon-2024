@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExhibitionsService } from './exhibitions.service';
 import { ExhibitionDto } from './dtos/exhibition.dto';
 import { CreateExhibitionDto } from './dtos/create-exhibition.dto';
@@ -16,6 +16,12 @@ export class ExhibitionsController {
     status: 200,
     description: '전시 목록 조회 성공',
     type: [ExhibitionDto],
+  })
+  @ApiQuery({
+    name: 'status',
+    enum: ExhibitionStatus,
+    required: false,
+    description: '전시 상태로 필터링 (upcoming | ongoing | ended)',
   })
   @Get()
   getExhibitions(

@@ -20,6 +20,7 @@ import { MaterialCampaign } from 'src/entities/material-campaign.entity';
 import { Material } from 'src/entities/material.entity';
 import { UserBadge } from 'src/entities/user-badge.entity';
 import { Badge } from 'src/entities/badge.entity';
+import { formatToKST } from 'src/common/utils/date.util';
 
 @Injectable()
 export class DonationsService {
@@ -98,13 +99,13 @@ export class DonationsService {
     return {
       id: donation.id,
       campaignId: donation.campaignId,
-      reservedDate: donation.reservedDate,
+      reservedDate: formatToKST.dateTime(donation.reservedDate),
       status: donation.status,
       userId: donation.userId,
       pickupLocationId: donation.pickupLocationId,
       materials: materialDonations.map((md) => ({
         materialId: md.materialId,
-        materialName: '', // Material 엔티티에서 조회 필요
+        materialName: md.material.name,
         amount: md.amount,
       })),
     };
@@ -112,7 +113,7 @@ export class DonationsService {
 
   async getDonations(): Promise<DonationDto[]> {
     const donations = await this.donationRepository.find({
-      relations: ['materials'],
+      relations: ['materials', 'materials.material'],
     });
 
     return donations.map((donation) =>

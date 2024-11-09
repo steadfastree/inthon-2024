@@ -8,6 +8,7 @@ import { UpdateExhibitionDto } from './dtos/update-exhibition.dto';
 import { Campaign } from 'src/entities/campaign.entity';
 import { ExhibitionStatus } from 'src/common/enums/exhibition-status.enum';
 import { ExhibitionListDto } from './dtos/exhibition-list.dto';
+import { formatToKST } from 'src/common/utils/date.util';
 
 @Injectable()
 export class ExhibitionsService {
@@ -23,8 +24,8 @@ export class ExhibitionsService {
       id: exhibition.id,
       title: exhibition.title,
       description: exhibition.description,
-      startDate: exhibition.startDate,
-      endDate: exhibition.endDate,
+      startDate: formatToKST.dateTime(exhibition.startDate),
+      endDate: formatToKST.dateTime(exhibition.endDate),
       status: exhibition.status,
       address: exhibition.address,
       latitude: exhibition.latitude,
@@ -33,8 +34,8 @@ export class ExhibitionsService {
         id: exhibition.campaign.id,
         title: exhibition.campaign.title,
         description: exhibition.campaign.description,
-        startDate: exhibition.campaign.startDate,
-        endDate: exhibition.campaign.endDate,
+        startDate: formatToKST.dateTime(exhibition.campaign.startDate),
+        endDate: formatToKST.dateTime(exhibition.campaign.endDate),
         status: exhibition.campaign.status,
         artist: exhibition.campaign.artist,
         materials: [],
@@ -47,8 +48,8 @@ export class ExhibitionsService {
       id: exhibition.id,
       title: exhibition.title,
       description: exhibition.description,
-      startDate: exhibition.startDate,
-      endDate: exhibition.endDate,
+      startDate: formatToKST.dateTime(exhibition.startDate),
+      endDate: formatToKST.dateTime(exhibition.endDate),
       status: exhibition.status,
       address: exhibition.address,
       latitude: exhibition.latitude,

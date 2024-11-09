@@ -30,10 +30,10 @@ export class CampaignDto {
   description: string;
 
   @ApiProperty({ description: '시작일' })
-  startDate: Date;
+  startDate: string;
 
   @ApiProperty({ description: '종료일' })
-  endDate: Date;
+  endDate: string;
 
   @ApiProperty({ description: '캠페인 상태', enum: CampaignStatus })
   status: CampaignStatus;

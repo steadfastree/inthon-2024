@@ -20,7 +20,7 @@ export class DonationDto {
   campaignId: number;
 
   @ApiProperty({ description: '예약 날짜' })
-  reservedDate: Date;
+  reservedDate: string;
 
   @ApiProperty({ description: '기부 상태', enum: DonationStatus })
   status: DonationStatus;

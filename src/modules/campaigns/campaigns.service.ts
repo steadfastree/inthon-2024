@@ -17,6 +17,8 @@ import { CampaignFeedDto } from './dtos/campaign-feed.dto';
 import { CreateCampaignFeedDto } from './dtos/create-campaign-feed.dto';
 import { User } from 'src/entities/user.entity';
 import { UserRole } from 'src/common/enums/user-role.enum';
+import { CampaignListDto } from './dtos/campaign-list.dto';
+import { formatToKST } from 'src/common/utils/date.util';
 
 @Injectable()
 export class CampaignsService {
@@ -33,12 +35,10 @@ export class CampaignsService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getCampaigns(status?: CampaignStatus): Promise<CampaignDto[]> {
+  async getCampaigns(status?: CampaignStatus): Promise<CampaignListDto[]> {
     const query = this.campaignRepository
       .createQueryBuilder('campaign')
       .leftJoinAndSelect('campaign.artist', 'artist')
-      .leftJoinAndSelect('campaign.materials', 'materials')
-      .leftJoinAndSelect('materials.material', 'material')
       .orderBy('campaign.startDate', 'DESC');
 
     if (status) {
@@ -46,7 +46,7 @@ export class CampaignsService {
     }
 
     const campaigns = await query.getMany();
-    return campaigns.map((campaign) => this.toCampaignDto(campaign));
+    return campaigns.map((campaign) => this.toCampaignListDto(campaign));
   }
 
   // 캠페인 상세정보 + 캠페인을 생성한 유저(아티스트) + 캠페인에 필요한 재료 이름과 필요한 양, 기부한 양
@@ -152,8 +152,8 @@ export class CampaignsService {
       title: campaign.title,
       description: campaign.description,
       status: campaign.status,
-      startDate: campaign.startDate,
-      endDate: campaign.endDate,
+      startDate: formatToKST.dateTime(campaign.startDate),
+      endDate: formatToKST.dateTime(campaign.endDate),
       artist: {
         id: campaign.artist.id,
         name: campaign.artist.name,
@@ -173,8 +173,23 @@ export class CampaignsService {
       id: feed.id,
       content: feed.content,
       authorId: feed.authorId,
-      campaignId: feed.campaignId,
-      createdAt: feed.createdAt,
+      campaignId: feed.campaign.id,
+      createdAt: formatToKST.dateTime(feed.createdAt),
+    };
+  }
+
+  private toCampaignListDto(campaign: Campaign): CampaignListDto {
+    return {
+      id: campaign.id,
+      title: campaign.title,
+      description: campaign.description,
+      status: campaign.status,
+      startDate: formatToKST.dateTime(campaign.startDate),
+      endDate: formatToKST.dateTime(campaign.endDate),
+      artist: {
+        id: campaign.artist.id,
+        name: campaign.artist.name,
+      },
     };
   }
 }

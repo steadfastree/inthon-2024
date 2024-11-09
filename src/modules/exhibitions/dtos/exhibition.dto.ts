@@ -13,10 +13,10 @@ export class ExhibitionDto {
   description: string;
 
   @ApiProperty({ description: '시작일' })
-  startDate: Date;
+  startDate: string;
 
   @ApiProperty({ description: '종료일' })
-  endDate: Date;
+  endDate: string;
 
   @ApiProperty({ description: '전시 상태', enum: ExhibitionStatus })
   status: ExhibitionStatus;

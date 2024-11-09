@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { CampaignStatus } from 'src/common/enums/campaign-status.enum';
 import { CreateCampaignDto } from './dtos/create-campaign.dto';
 import { UpdateCampaignDto } from './dtos/update-campaign.dto';
@@ -7,6 +7,7 @@ import { CampaignDto } from './dtos/campaign.dto';
 import { CampaignsService } from './campaigns.service';
 import { CampaignFeedDto } from './dtos/campaign-feed.dto';
 import { CreateCampaignFeedDto } from './dtos/create-campaign-feed.dto';
+import { CampaignListDto } from './dtos/campaign-list.dto';
 
 @ApiTags('캠페인')
 @Controller('campaigns')
@@ -19,12 +20,18 @@ export class CampaignsController {
   @ApiResponse({
     status: 200,
     description: '캠페인 목록 조회 성공',
-    type: [CampaignDto],
+    type: [CampaignListDto],
+  })
+  @ApiQuery({
+    name: 'status',
+    enum: CampaignStatus,
+    required: false,
+    description: '캠페인 상태로 필터링 (funding | in_production | completed)',
   })
   @Get()
   getCampaigns(
-    @Query('status') status: CampaignStatus,
-  ): Promise<CampaignDto[]> {
+    @Query('status') status?: CampaignStatus,
+  ): Promise<CampaignListDto[]> {
     return this.campaignsService.getCampaigns(status);
   }
 
@@ -58,7 +65,7 @@ export class CampaignsController {
   @ApiOperation({
     summary: '캠페인 상태 업데이트',
     description:
-      '캠페인의 상태를 업데이트합니다. (가능한 상태: funding | in_progress | completed)',
+      '캠페인의 상태를 업데이트합니다. (가능한 상태: funding | in_production | completed)',
   })
   @ApiResponse({
     status: 200,
