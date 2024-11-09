@@ -27,6 +27,9 @@ https://inthon.steadfastree.xyz/api
 
 ## 디렉토리 구조
 
+## 프로젝트 구조
+
+```
 src
 ├── app.controller.ts
 ├── app.module.ts
@@ -86,3 +89,5 @@ src
 ├── users.controller.ts
 ├── users.module.ts
 └── users.service.ts
+
+```
