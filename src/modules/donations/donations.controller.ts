@@ -34,7 +34,11 @@ export class DonationsController {
     return this.donationsService.getDonations();
   }
 
-  @ApiOperation({ summary: '기부 상태 업데이트' })
+  @ApiOperation({
+    summary: '기부 상태 업데이트',
+    description:
+      '기부 상태를 업데이트합니다. (가능한 상태: reserved | completed | cancelled | no_show)',
+  })
   @ApiResponse({
     status: 200,
     description: '기부 상태 업데이트 성공',

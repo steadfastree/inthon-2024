@@ -55,7 +55,11 @@ export class CampaignsController {
   }
 
   // 가드로 role 체크해서 artist 또는 관리자만 수정 가능하도록
-  @ApiOperation({ summary: '캠페인 수정' })
+  @ApiOperation({
+    summary: '캠페인 상태 업데이트',
+    description:
+      '캠페인의 상태를 업데이트합니다. (가능한 상태: funding | in_progress | completed)',
+  })
   @ApiResponse({
     status: 200,
     description: '캠페인 수정 성공',

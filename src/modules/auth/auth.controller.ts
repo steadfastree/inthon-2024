@@ -10,7 +10,11 @@ import { LoginDto } from './dtos/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ summary: '회원가입' })
+  @ApiOperation({
+    summary: '회원가입',
+    description:
+      '새로운 사용자를 등록합니다. (가능한 역할: user | artist | admin)',
+  })
   @ApiResponse({
     status: 201,
     description: '회원가입 성공',

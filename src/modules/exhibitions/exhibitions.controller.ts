@@ -47,10 +47,14 @@ export class ExhibitionsController {
     return this.exhibitionsService.createExhibition(createExhibitionDto);
   }
 
-  @ApiOperation({ summary: '전시 수정' })
+  @ApiOperation({
+    summary: '전시 업데이트',
+    description:
+      '전시를 업데이트합니다. (가능한 status: upcoming | in_progress | completed)',
+  })
   @ApiResponse({
     status: 200,
-    description: '전시 수정 성공',
+    description: '전시 상태 업데이트 성공',
     type: ExhibitionDto,
   })
   @Put(':exhibitionId')
