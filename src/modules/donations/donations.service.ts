@@ -45,10 +45,11 @@ export class DonationsService {
     private pickupLocationRepository: Repository<PickupLocation>,
     @InjectDataSource()
     private dataSource: DataSource,
-  ) { }
+  ) {}
 
   async createDonation(
-    createDonationDto: CreateDonationDto, userId: number,
+    userId: number,
+    createDonationDto: CreateDonationDto,
   ): Promise<DonationDto> {
     // 캠페인 존재 여부 확인
     const campaign = await this.campaignRepository.findOne({

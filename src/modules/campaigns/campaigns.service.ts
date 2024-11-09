@@ -70,10 +70,9 @@ export class CampaignsService {
   }
 
   async createCampaign(
+    artistId: number,
     createCampaignDto: CreateCampaignDto,
   ): Promise<CampaignDto> {
-    // TODO: 실제 인증된 아티스트 ID를 사용하도록 수정
-    const artistId = 2;
     // 아티스트 존재 여부 확인
     const artist = await this.userRepository.findOne({
       where: { id: artistId, role: UserRole.ARTIST },

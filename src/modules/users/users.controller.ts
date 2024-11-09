@@ -1,5 +1,10 @@
 import { Controller, Get, Req, Request, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UserDto } from './dtos/user.dto';
 import { CreditHistoryDto } from './dtos/credit-history.dto';
@@ -7,10 +12,11 @@ import { CampaignDonatedDto } from './dtos/campaign-donated.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserGuard } from '../auth/guard/user.guard';
 
+@ApiBearerAuth('access-token')
 @ApiTags('사용자')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: '마이페이지 조회' })
   @ApiResponse({

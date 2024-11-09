@@ -1,44 +1,61 @@
-import { Body, Controller, Get, Post, Param, Put, UseGuards, Req } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Put,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dtos/create-donation.dto';
 import { UpdateDonationDto } from './dtos/update-donation.dto';
 import { DonationDto } from './dtos/donation.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { UserGuard } from '../auth/guard/user.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { AdminGuard } from '../auth/guard/admin.guard';
 
+@ApiBearerAuth('access-token')
 @ApiTags('기부')
 @Controller('donations')
 export class DonationsController {
-  constructor(private readonly donationsService: DonationsService) { }
+  constructor(private readonly donationsService: DonationsService) {}
 
+  @UseGuards(AuthGuard('jwt'), UserGuard)
   @ApiOperation({ summary: '기부 요청 전송' })
   @ApiResponse({
     status: 201,
     description: '기부 요청 전송 성공',
     type: DonationDto,
   })
-  @UseGuards(AuthGuard('jwt'), UserGuard)
   @Post()
   createDonation(
-    @Body() createDonationDto: CreateDonationDto,
     @Req() req,
+    @Body() createDonationDto: CreateDonationDto,
   ): Promise<DonationDto> {
-    return this.donationsService.createDonation(createDonationDto, req.user.id);
+    return this.donationsService.createDonation(req.user.id, createDonationDto);
   }
 
+  @UseGuards(AuthGuard('jwt'), UserGuard)
   @ApiOperation({ summary: '생성한 기부 목록 조회' })
   @ApiResponse({
     status: 200,
     description: '기부 목록 조회 성공',
     type: [DonationDto],
   })
-  @UseGuards(AuthGuard('jwt'), UserGuard)
   @Get()
   getDonations(@Req() req): Promise<DonationDto[]> {
     return this.donationsService.getDonations(req.user.id);
   }
 
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
   @ApiOperation({
     summary: '기부 상태 업데이트',
     description:
@@ -49,7 +66,6 @@ export class DonationsController {
     description: '기부 상태 업데이트 성공',
     type: DonationDto,
   })
-  // UserGuard 필요한가? 아니면 AdminGuard? 
   @Put(':donationId')
   updateDonation(
     @Param('donationId') donationId: number,
