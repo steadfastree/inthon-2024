@@ -4,6 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { CampaignsModule } from './modules/campaigns/campaigns.module';
+import { DonationsModule } from './modules/donations/donations.module';
+import { ExhibitionsModule } from './modules/exhibitions/exhibitions.module';
 
 @Module({
   imports: [
@@ -26,6 +31,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UsersModule,
+    CampaignsModule,
+    DonationsModule,
+    ExhibitionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
