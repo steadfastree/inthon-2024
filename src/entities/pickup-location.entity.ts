@@ -6,9 +6,10 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Donation } from './donation.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class PickupLocation extends BaseEntity {
+export class PickupLocation extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

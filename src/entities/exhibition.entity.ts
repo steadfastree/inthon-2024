@@ -10,9 +10,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Campaign } from './campaign.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Exhibition extends BaseEntity {
+export class Exhibition extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

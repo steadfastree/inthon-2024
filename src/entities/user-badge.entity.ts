@@ -8,9 +8,10 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 import { Badge } from './badge.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class UserBadge extends BaseEntity {
+export class UserBadge extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

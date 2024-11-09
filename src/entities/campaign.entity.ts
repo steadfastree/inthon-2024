@@ -14,9 +14,10 @@ import { User } from './user.entity';
 import { CampaignFeed } from './campaign-feed.entity';
 import { MaterialCampaign } from './material-campaign.entity';
 import { Exhibition } from './exhibition.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Campaign extends BaseEntity {
+export class Campaign extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,7 +25,7 @@ export class Campaign extends BaseEntity {
   title: string;
 
   @Column({
-    type: 'enum',
+    type: 'varchar',
     enum: CampaignStatus,
     default: CampaignStatus.FUNDING,
   })
