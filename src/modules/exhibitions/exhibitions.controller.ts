@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ExhibitionsService } from './exhibitions.service';
 import { ExhibitionDto } from './dtos/exhibition.dto';
 import { CreateExhibitionDto } from './dtos/create-exhibition.dto';
 import { UpdateExhibitionDto } from './dtos/update-exhibition.dto';
+import { ExhibitionStatus } from 'src/common/enums/exhibition-status.enum';
 
 @ApiTags('전시')
 @Controller('exhibitions')
@@ -17,8 +18,10 @@ export class ExhibitionsController {
     type: [ExhibitionDto],
   })
   @Get()
-  getExhibitions(): Promise<ExhibitionDto[]> {
-    return this.exhibitionsService.getExhibitions();
+  getExhibitions(
+    @Query('status') status: ExhibitionStatus,
+  ): Promise<ExhibitionDto[]> {
+    return this.exhibitionsService.getExhibitions(status);
   }
 
   @ApiOperation({ summary: '전시 상세 조회' })

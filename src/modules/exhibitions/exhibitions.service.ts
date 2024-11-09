@@ -7,6 +7,7 @@ import { CreateExhibitionDto } from './dtos/create-exhibition.dto';
 import { UpdateExhibitionDto } from './dtos/update-exhibition.dto';
 import { Campaign } from 'src/entities/campaign.entity';
 import { ExhibitionStatus } from 'src/common/enums/exhibition-status.enum';
+import { ExhibitionListDto } from './dtos/exhibition-list.dto';
 
 @Injectable()
 export class ExhibitionsService {
@@ -41,14 +42,8 @@ export class ExhibitionsService {
     };
   }
 
-  async getExhibitions(): Promise<ExhibitionDto[]> {
-    const exhibitions = await this.exhibitionRepository.find({
-      order: {
-        startDate: 'DESC',
-      },
-    });
-
-    return exhibitions.map((exhibition) => ({
+  private toExhibitionListDto(exhibition: Exhibition): ExhibitionListDto {
+    return {
       id: exhibition.id,
       title: exhibition.title,
       description: exhibition.description,
@@ -58,7 +53,24 @@ export class ExhibitionsService {
       address: exhibition.address,
       latitude: exhibition.latitude,
       longitude: exhibition.longitude,
-    }));
+    };
+  }
+
+  async getExhibitions(
+    status?: ExhibitionStatus,
+  ): Promise<ExhibitionListDto[]> {
+    const query = this.exhibitionRepository
+      .createQueryBuilder('exhibition')
+      .orderBy('exhibition.startDate', 'DESC');
+
+    if (status) {
+      query.where('exhibition.status = :status', { status });
+    }
+
+    const exhibitions = await query.getMany();
+    return exhibitions.map((exhibition) =>
+      this.toExhibitionListDto(exhibition),
+    );
   }
 
   async getExhibition(id: number): Promise<ExhibitionDto> {
