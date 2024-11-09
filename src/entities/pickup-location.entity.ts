@@ -9,7 +9,7 @@ import { Donation } from './donation.entity';
 import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class PickupLocation extends TimeStampEntity {
+export class PickupLocation {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,10 +19,10 @@ export class PickupLocation extends TimeStampEntity {
   @Column()
   address: string;
 
-  @Column()
+  @Column('decimal')
   latitude: number;
 
-  @Column()
+  @Column('decimal')
   longitude: number;
 
   @Column()
