@@ -22,6 +22,9 @@ export class Badge {
   @Column({ type: 'int' })
   requiredCredit: number;
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
   @OneToMany(() => UserBadge, (userBadge) => userBadge.badge)
   userBadges: UserBadge[];
 }

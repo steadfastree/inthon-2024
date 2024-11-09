@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UserDto } from './dtos/user.dto';
@@ -17,8 +17,8 @@ export class UsersController {
     type: UserDto,
   })
   @Get()
-  getMyPage(): Promise<UserDto> {
-    return this.usersService.getMyPage();
+  getMyPage(@Req() req): Promise<UserDto> {
+    return this.usersService.getMyPage(1);
   }
 
   // @ApiOperation({ summary: '크레딧 내역 조회' })

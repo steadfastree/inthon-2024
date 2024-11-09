@@ -23,6 +23,9 @@ export class Exhibition extends TimeStampEntity {
   @Column()
   description: string;
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
   @Column()
   startDate: Date;
 

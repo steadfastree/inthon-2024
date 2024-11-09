@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/entities/user.entity';
@@ -6,19 +6,28 @@ import { UserDto } from './dtos/user.dto';
 import { CreditHistoryDto } from './dtos/credit-history.dto';
 import { CampaignDonatedDto } from './dtos/campaign-donated.dto';
 import { Donation } from 'src/entities/donation.entity';
+import { UserBadge } from 'src/entities/user-badge.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(UserBadge)
+    private userBadgeRepository: Repository<UserBadge>,
     @InjectRepository(Donation)
     private donationRepository: Repository<Donation>,
   ) {}
 
-  async getMyPage(): Promise<UserDto> {
-    // TODO: 실제 인증된 사용자 ID를 사용하도록 수정
-    const user = await this.userRepository.findOneBy({ id: 1 });
+  async getMyPage(userId: number): Promise<UserDto> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['badges', 'badges.badge'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('사용자를 찾을 수 없습니다.');
+    }
 
     return {
       id: user.id,
@@ -26,6 +35,11 @@ export class UsersService {
       email: user.email,
       role: user.role,
       credit: user.credit,
+      badges: user.badges.map((userBadge) => ({
+        id: userBadge.badge.id,
+        name: userBadge.badge.name,
+        description: userBadge.badge.description,
+      })),
     };
   }
 

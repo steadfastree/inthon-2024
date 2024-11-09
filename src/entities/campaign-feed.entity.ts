@@ -21,6 +21,9 @@ export class CampaignFeed extends TimeStampEntity {
   @ManyToOne(() => User, (user) => user.campaignFeeds)
   author: User;
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
   @Column()
   @RelationId((feed: CampaignFeed) => feed.author)
   authorId: number;
