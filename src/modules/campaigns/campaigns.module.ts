@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MaterialCampaign } from 'src/entities/material-campaign.entity';
 import { Material } from 'src/entities/material.entity';
 import { CampaignFeed } from 'src/entities/campaign-feed.entity';
+import { User } from 'src/entities/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -13,6 +14,7 @@ import { CampaignFeed } from 'src/entities/campaign-feed.entity';
       MaterialCampaign,
       Material,
       CampaignFeed,
+      User,
     ]),
   ],
   controllers: [CampaignsController],

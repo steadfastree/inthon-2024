@@ -11,6 +11,8 @@ import { Material } from 'src/entities/material.entity';
 import { CampaignFeed } from 'src/entities/campaign-feed.entity';
 import { CampaignFeedDto } from './dtos/campaign-feed.dto';
 import { CreateCampaignFeedDto } from './dtos/create-campaign-feed.dto';
+import { User } from 'src/entities/user.entity';
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 @Injectable()
 export class CampaignsService {
@@ -23,6 +25,8 @@ export class CampaignsService {
     private materialRepository: Repository<Material>,
     @InjectRepository(CampaignFeed)
     private campaignFeedRepository: Repository<CampaignFeed>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   async getCampaigns(status?: CampaignStatus): Promise<CampaignDto[]> {
@@ -55,7 +59,7 @@ export class CampaignsService {
       .createQueryBuilder('feed')
       .leftJoinAndSelect('feed.campaign', 'campaign')
       .where('campaign.id = :campaignId', { campaignId })
-      .orderBy('feed.createdAt', 'DESC')
+      .orderBy('feed.created_at', 'DESC')
       .getMany();
 
     return feeds.map((feed) => this.toCampaignFeedDto(feed));
@@ -64,9 +68,38 @@ export class CampaignsService {
   async createCampaign(
     createCampaignDto: CreateCampaignDto,
   ): Promise<CampaignDto> {
-    const campaign = this.campaignRepository.create(createCampaignDto);
+    // TODO: 실제 인증된 아티스트 ID를 사용하도록 수정
+    const artistId = 2;
+    // 아티스트 존재 여부 확인
+    const artist = await this.userRepository.findOne({
+      where: { id: artistId, role: UserRole.ARTIST },
+    });
+
+    if (!artist) {
+      throw new NotFoundException('아티스트를 찾을 수 없습니다.');
+    }
+
+    const campaign = this.campaignRepository.create({
+      ...createCampaignDto,
+      artistId,
+      status: CampaignStatus.FUNDING,
+    });
+
     const savedCampaign = await this.campaignRepository.save(campaign);
-    return this.toCampaignDto(savedCampaign);
+
+    // 재료 정보 저장
+    await Promise.all(
+      createCampaignDto.materials.map((material) =>
+        this.materialCampaignRepository.save({
+          campaignId: savedCampaign.id,
+          materialId: material.materialId,
+          requiredAmount: material.requiredAmount,
+          donatedAmount: 0,
+        }),
+      ),
+    );
+
+    return this.getCampaign(savedCampaign.id);
   }
 
   async updateCampaign(
@@ -89,7 +122,7 @@ export class CampaignsService {
     }
 
     // TODO: 실제 인증된 사용자 ID를 사용하도록 수정
-    const authorId = 1;
+    const authorId = 2;
 
     const feed = this.campaignFeedRepository.create({
       ...createCampaignFeedDto,
@@ -129,6 +162,7 @@ export class CampaignsService {
       content: feed.content,
       authorId: feed.authorId,
       campaignId: feed.campaignId,
+      createdAt: feed.createdAt,
     };
   }
 }

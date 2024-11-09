@@ -16,6 +16,6 @@ export class CampaignFeedDto {
   @ApiProperty({ description: '캠페인 ID' })
   campaignId: number;
 
-  // @ApiProperty({ description: '생성일' })
-  // createdAt: Date;
+  @ApiProperty({ description: '생성일' })
+  createdAt: Date;
 }
