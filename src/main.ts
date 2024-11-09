@@ -13,7 +13,7 @@ async function bootstrap() {
     .setDescription('API 설명')
     .setVersion('1.0')
     // JWT 인증을 사용하는 경우
-    // .addBearerAuth()
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

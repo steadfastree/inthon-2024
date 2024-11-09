@@ -40,4 +40,4 @@ import { ExhibitionsModule } from './modules/exhibitions/exhibitions.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
