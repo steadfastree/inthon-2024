@@ -14,11 +14,11 @@ export class UsersService {
     private userRepository: Repository<User>,
     @InjectRepository(Donation)
     private donationRepository: Repository<Donation>,
-  ) {}
+  ) { }
 
-  async getMyPage(): Promise<UserDto> {
+  async getMyPage(userId: number): Promise<UserDto> {
     // TODO: 실제 인증된 사용자 ID를 사용하도록 수정
-    const user = await this.userRepository.findOneBy({ id: 1 });
+    const user = await this.userRepository.findOneBy({ id: userId });
 
     return {
       id: user.id,
@@ -41,9 +41,9 @@ export class UsersService {
   //   ];
   // }
 
-  async getCampaignsDonated(): Promise<CampaignDonatedDto[]> {
+  async getCampaignsDonated(userId: number): Promise<CampaignDonatedDto[]> {
     const donations = await this.donationRepository.find({
-      where: { userId: 1 },
+      where: { userId: userId },
       relations: ['materials', 'materials.material', 'campaign'],
     });
 
