@@ -9,7 +9,7 @@ import { UsersModule } from './modules/users/users.module';
 import { CampaignsModule } from './modules/campaigns/campaigns.module';
 import { DonationsModule } from './modules/donations/donations.module';
 import { ExhibitionsModule } from './modules/exhibitions/exhibitions.module';
-
+import { MaterialsModule } from './modules/materials/materials.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +36,7 @@ import { ExhibitionsModule } from './modules/exhibitions/exhibitions.module';
     CampaignsModule,
     DonationsModule,
     ExhibitionsModule,
+    MaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
