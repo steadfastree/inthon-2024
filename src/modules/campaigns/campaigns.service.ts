@@ -129,7 +129,6 @@ export class CampaignsService {
       content: feed.content,
       authorId: feed.authorId,
       campaignId: feed.campaignId,
-      createdAt: feed.createdAt,
     };
   }
 }
