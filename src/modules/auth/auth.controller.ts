@@ -34,7 +34,7 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: '회원가입 성공',
-    type: UserDto,
+    type: User,
   })
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
@@ -45,7 +45,7 @@ export class AuthController {
   @ApiResponse({
     status: 200,
     description: '로그인 성공',
-    type: UserDto,
+    type: String,
   })
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
