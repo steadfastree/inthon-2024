@@ -9,7 +9,7 @@ import { UserBadge } from './user-badge.entity';
 import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Badge extends TimeStampEntity {
+export class Badge {
   @PrimaryGeneratedColumn()
   id: number;
 
