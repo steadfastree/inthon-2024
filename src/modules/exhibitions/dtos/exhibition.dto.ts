@@ -36,4 +36,7 @@ export class ExhibitionDto {
     required: false,
   })
   campaign?: CampaignDto;
+
+  @ApiProperty({ description: '전시 이미지 URL', required: false })
+  imageUrl?: string;
 }

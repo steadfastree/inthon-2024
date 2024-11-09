@@ -151,6 +151,7 @@ export class CampaignsService {
       id: campaign.id,
       title: campaign.title,
       description: campaign.description,
+      imageUrl: campaign.imageUrl,
       status: campaign.status,
       startDate: formatToKST.dateTime(campaign.startDate),
       endDate: formatToKST.dateTime(campaign.endDate),
@@ -172,6 +173,7 @@ export class CampaignsService {
     return {
       id: feed.id,
       content: feed.content,
+      imageUrl: feed.imageUrl,
       authorId: feed.authorId,
       campaignId: feed.campaign.id,
       createdAt: formatToKST.dateTime(feed.createdAt),
@@ -184,6 +186,7 @@ export class CampaignsService {
       title: campaign.title,
       description: campaign.description,
       status: campaign.status,
+      imageUrl: campaign.imageUrl,
       startDate: formatToKST.dateTime(campaign.startDate),
       endDate: formatToKST.dateTime(campaign.endDate),
       artist: {

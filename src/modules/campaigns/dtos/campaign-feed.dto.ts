@@ -7,7 +7,7 @@ export class CampaignFeedDto {
   @ApiProperty({ description: '피드 내용' })
   content: string;
 
-  @ApiProperty({ description: '이미지 URL', required: false })
+  @ApiProperty({ description: '피드 이미지 URL', required: false })
   imageUrl?: string;
 
   @ApiProperty({ description: '작성자 ID' })

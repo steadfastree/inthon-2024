@@ -7,6 +7,7 @@ export class CampaignListDto extends PickType(CampaignDto, [
   'description',
   'startDate',
   'endDate',
+  'imageUrl',
   'status',
   'artist',
 ] as const) {}

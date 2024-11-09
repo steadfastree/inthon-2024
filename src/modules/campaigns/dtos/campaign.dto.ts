@@ -29,6 +29,9 @@ export class CampaignDto {
   @ApiProperty({ description: '캠페인 설명' })
   description: string;
 
+  @ApiProperty({ description: '캠페인 이미지 URL', required: false })
+  imageUrl?: string;
+
   @ApiProperty({ description: '시작일' })
   startDate: string;
 
