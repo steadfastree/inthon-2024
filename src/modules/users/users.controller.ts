@@ -21,16 +21,16 @@ export class UsersController {
     return this.usersService.getMyPage();
   }
 
-  @ApiOperation({ summary: '크레딧 내역 조회' })
-  @ApiResponse({
-    status: 200,
-    description: '크레딧 내역 조회 성공',
-    type: [CreditHistoryDto],
-  })
-  @Get('credits')
-  getCredits(): Promise<CreditHistoryDto[]> {
-    return this.usersService.getCredits();
-  }
+  // @ApiOperation({ summary: '크레딧 내역 조회' })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: '크레딧 내역 조회 성공',
+  //   type: [CreditHistoryDto],
+  // })
+  // @Get('credits')
+  // getCredits(): Promise<CreditHistoryDto[]> {
+  //   return this.usersService.getCredits();
+  // }
 
   @ApiOperation({ summary: '참여 캠페인 목록 조회' })
   @ApiResponse({

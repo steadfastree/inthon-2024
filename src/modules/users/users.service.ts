@@ -29,17 +29,17 @@ export class UsersService {
     };
   }
 
-  async getCredits(): Promise<CreditHistoryDto[]> {
-    // TODO: 크레딧 히스토리 엔티티 구현 후 실제 데이터 조회로 수정
-    return [
-      {
-        id: 1,
-        amount: 100,
-        createdAt: new Date(),
-        description: '플라스틱 기부',
-      },
-    ];
-  }
+  // async getCredits(): Promise<CreditHistoryDto[]> {
+  //   // TODO: 크레딧 히스토리 엔티티 구현 후 실제 데이터 조회로 수정
+  //   return [
+  //     {
+  //       id: 1,
+  //       amount: 100,
+  //       createdAt: new Date(),
+  //       description: '플라스틱 기부',
+  //     },
+  //   ];
+  // }
 
   async getCampaignsDonated(): Promise<CampaignDonatedDto[]> {
     const donations = await this.donationRepository.find({
