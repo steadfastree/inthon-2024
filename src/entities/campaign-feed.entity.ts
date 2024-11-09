@@ -8,9 +8,10 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 import { Campaign } from './campaign.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class CampaignFeed extends BaseEntity {
+export class CampaignFeed extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

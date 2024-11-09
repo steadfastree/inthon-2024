@@ -10,9 +10,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Campaign } from './campaign.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Exhibition extends BaseEntity {
+export class Exhibition extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -34,10 +35,10 @@ export class Exhibition extends BaseEntity {
   @Column()
   address: string;
 
-  @Column()
+  @Column('decimal')
   latitude: number;
 
-  @Column()
+  @Column('decimal')
   longitude: number;
 
   @OneToOne(() => Campaign, (campaign) => campaign.exhibition)

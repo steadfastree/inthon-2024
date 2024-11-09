@@ -11,9 +11,11 @@ import {
 import { User } from './user.entity';
 import { PickupLocation } from './pickup-location.entity';
 import { MaterialDonation } from './material-donation.entity';
+import { Campaign } from './campaign.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Donation extends BaseEntity {
+export class Donation extends TimeStampEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,9 +23,8 @@ export class Donation extends BaseEntity {
   reservedDate: Date;
 
   @Column({
-    type: 'enum',
+    type: 'varchar',
     enum: DonationStatus,
-    default: DonationStatus.RESERVED,
   })
   status: DonationStatus;
 
@@ -43,4 +44,11 @@ export class Donation extends BaseEntity {
 
   @OneToMany(() => MaterialDonation, (md) => md.donation)
   materials: MaterialDonation[];
+
+  @ManyToOne(() => Campaign)
+  campaign: Campaign;
+
+  @Column()
+  @RelationId((donation: Donation) => donation.campaign)
+  campaignId: number;
 }

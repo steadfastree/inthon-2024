@@ -8,9 +8,10 @@ import {
 } from 'typeorm';
 import { Material } from './material.entity';
 import { Donation } from './donation.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class MaterialDonation extends BaseEntity {
+export class MaterialDonation {
   @PrimaryGeneratedColumn()
   id: number;
 

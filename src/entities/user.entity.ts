@@ -10,9 +10,10 @@ import { Donation } from './donation.entity';
 import { UserBadge } from './user-badge.entity';
 import { CampaignFeed } from './campaign-feed.entity';
 import { Campaign } from './campaign.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,9 +27,8 @@ export class User extends BaseEntity {
   password: string;
 
   @Column({
-    type: 'enum',
+    type: 'varchar',
     enum: UserRole,
-    default: UserRole.USER,
   })
   role: UserRole;
 

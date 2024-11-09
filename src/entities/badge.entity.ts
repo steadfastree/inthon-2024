@@ -6,9 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserBadge } from './user-badge.entity';
+import { TimeStampEntity } from './time-stamp.entity';
 
 @Entity()
-export class Badge extends BaseEntity {
+export class Badge {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,6 +18,9 @@ export class Badge extends BaseEntity {
 
   @Column()
   description: string;
+
+  @Column({ type: 'int' })
+  requiredCredit: number;
 
   @OneToMany(() => UserBadge, (userBadge) => userBadge.badge)
   userBadges: UserBadge[];
