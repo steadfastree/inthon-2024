@@ -6,6 +6,7 @@ import { ExhibitionDto } from './dtos/exhibition.dto';
 import { CreateExhibitionDto } from './dtos/create-exhibition.dto';
 import { UpdateExhibitionDto } from './dtos/update-exhibition.dto';
 import { Campaign } from 'src/entities/campaign.entity';
+import { ExhibitionStatus } from 'src/common/enums/exhibition-status.enum';
 
 @Injectable()
 export class ExhibitionsService {
@@ -16,14 +17,7 @@ export class ExhibitionsService {
     private campaignRepository: Repository<Campaign>,
   ) {}
 
-  private async toExhibitionDto(
-    exhibition: Exhibition,
-  ): Promise<ExhibitionDto> {
-    const campaign = await this.campaignRepository.findOne({
-      where: { id: exhibition.campaign.id },
-      relations: ['artist', 'materials', 'materials.material'],
-    });
-
+  private toExhibitionDto(exhibition: Exhibition): ExhibitionDto {
     return {
       id: exhibition.id,
       title: exhibition.title,
@@ -35,40 +29,46 @@ export class ExhibitionsService {
       latitude: exhibition.latitude,
       longitude: exhibition.longitude,
       campaign: {
-        id: campaign.id,
-        title: campaign.title,
-        description: campaign.description,
-        startDate: campaign.startDate,
-        endDate: campaign.endDate,
-        status: campaign.status,
-        artist: {
-          id: campaign.artist.id,
-          name: campaign.artist.name,
-        },
-        materials: campaign.materials.map((mc) => ({
-          materialId: mc.material.id,
-          materialName: mc.material.name,
-          requiredAmount: mc.requiredAmount,
-          donatedAmount: mc.donatedAmount,
-          isFulfilled: mc.isFulfilled,
-        })),
+        id: exhibition.campaign.id,
+        title: exhibition.campaign.title,
+        description: exhibition.campaign.description,
+        startDate: exhibition.campaign.startDate,
+        endDate: exhibition.campaign.endDate,
+        status: exhibition.campaign.status,
+        artist: exhibition.campaign.artist,
+        materials: [],
       },
     };
   }
 
   async getExhibitions(): Promise<ExhibitionDto[]> {
     const exhibitions = await this.exhibitionRepository.find({
-      relations: ['campaign'],
+      order: {
+        startDate: 'DESC',
+      },
     });
-    return Promise.all(
-      exhibitions.map((exhibition) => this.toExhibitionDto(exhibition)),
-    );
+
+    return exhibitions.map((exhibition) => ({
+      id: exhibition.id,
+      title: exhibition.title,
+      description: exhibition.description,
+      startDate: exhibition.startDate,
+      endDate: exhibition.endDate,
+      status: exhibition.status,
+      address: exhibition.address,
+      latitude: exhibition.latitude,
+      longitude: exhibition.longitude,
+    }));
   }
 
-  async getExhibition(exhibitionId: number): Promise<ExhibitionDto> {
+  async getExhibition(id: number): Promise<ExhibitionDto> {
     const exhibition = await this.exhibitionRepository.findOne({
-      where: { id: exhibitionId },
-      relations: ['campaign'],
+      where: { id },
+      relations: {
+        campaign: {
+          artist: true,
+        },
+      },
     });
 
     if (!exhibition) {
@@ -81,10 +81,9 @@ export class ExhibitionsService {
   async createExhibition(
     createExhibitionDto: CreateExhibitionDto,
   ): Promise<ExhibitionDto> {
-    const campaign = await this.campaignRepository.findOneBy({
-      id: createExhibitionDto.campaignId,
+    const campaign = await this.campaignRepository.findOne({
+      where: { id: createExhibitionDto.campaignId },
     });
-
     if (!campaign) {
       throw new NotFoundException('캠페인을 찾을 수 없습니다.');
     }
@@ -92,6 +91,7 @@ export class ExhibitionsService {
     const exhibition = this.exhibitionRepository.create({
       ...createExhibitionDto,
       campaign,
+      status: ExhibitionStatus.UPCOMING,
     });
 
     const savedExhibition = await this.exhibitionRepository.save(exhibition);

@@ -30,6 +30,10 @@ export class ExhibitionDto {
   @ApiProperty({ description: '경도' })
   longitude: number;
 
-  @ApiProperty({ description: '연관된 캠페인', type: CampaignDto })
-  campaign: CampaignDto;
+  @ApiProperty({
+    description: '연관된 캠페인',
+    type: CampaignDto,
+    required: false,
+  })
+  campaign?: CampaignDto;
 }
