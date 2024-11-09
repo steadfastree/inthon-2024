@@ -1,64 +1,84 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CampaignStatus } from 'src/common/enums/campaign-status.enum';
-import { CampaignFeed } from 'src/entities/campaign-feed.entity';
+import { Repository } from 'typeorm';
 import { Campaign } from 'src/entities/campaign.entity';
+import { CampaignStatus } from 'src/common/enums/campaign-status.enum';
+import { CreateCampaignDto } from './dtos/create-campaign.dto';
+import { UpdateCampaignDto } from './dtos/update-campaign.dto';
+import { CampaignDto } from './dtos/campaign.dto';
 import { MaterialCampaign } from 'src/entities/material-campaign.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Material } from 'src/entities/material.entity';
 
 @Injectable()
 export class CampaignsService {
   constructor(
     @InjectRepository(Campaign)
     private campaignRepository: Repository<Campaign>,
-    @InjectRepository(CampaignFeed)
-    private campaignFeedRepository: Repository<CampaignFeed>,
     @InjectRepository(MaterialCampaign)
     private materialCampaignRepository: Repository<MaterialCampaign>,
+    @InjectRepository(Material)
+    private materialRepository: Repository<Material>,
   ) {}
 
-  async getCampaigns(status: CampaignStatus) {
+  async getCampaigns(status?: CampaignStatus): Promise<CampaignDto[]> {
     const query = this.campaignRepository
       .createQueryBuilder('campaign')
       .leftJoinAndSelect('campaign.artist', 'artist')
       .leftJoinAndSelect('campaign.materials', 'materials')
       .leftJoinAndSelect('materials.material', 'material')
-      .where('campaign.status = :status', { status })
       .orderBy('campaign.startDate', 'DESC');
 
-    return query.getMany();
+    if (status) {
+      query.where('campaign.status = :status', { status });
+    }
+
+    const campaigns = await query.getMany();
+    return campaigns.map((campaign) => this.toCampaignDto(campaign));
   }
 
-  async getCampaign(campaignId: number) {
-    const query = this.campaignRepository
-      .createQueryBuilder('campaign')
-      .leftJoinAndSelect('campaign.artist', 'artist')
-      .leftJoinAndSelect('campaign.materials', 'materials')
-      .leftJoinAndSelect('materials.material', 'material')
-      .where('campaign.id = :campaignId', { campaignId });
-  }
-
-  async getCampaignFeeds(campaignId: number) {
-    const query = this.campaignFeedRepository
-      .createQueryBuilder('campaignFeed')
-      .leftJoinAndSelect('campaignFeed.author', 'author')
-      .where('campaignFeed.campaignId = :campaignId', { campaignId });
-  }
-
-  async createCampaign(createCampaignDto: any) {
-    const campaign = this.campaignRepository.create(createCampaignDto);
-    return this.campaignRepository.save(campaign);
-  }
-
-  async updateCampaign(campaignId: number, updateCampaignDto: any) {
-    const campaign = await this.campaignRepository.findOneBy({
-      id: campaignId,
+  async getCampaign(id: number): Promise<CampaignDto> {
+    const campaign = await this.campaignRepository.findOne({
+      where: { id },
+      relations: ['artist', 'materials', 'materials.material'],
     });
-    return this.campaignRepository.save(campaign);
+    return this.toCampaignDto(campaign);
   }
 
-  async createCampaignFeed(campaignId: number, createFeedDto: any) {
-    const feed = this.campaignFeedRepository.create(createFeedDto);
-    return this.campaignFeedRepository.save(feed);
+  async createCampaign(
+    createCampaignDto: CreateCampaignDto,
+  ): Promise<CampaignDto> {
+    const campaign = this.campaignRepository.create(createCampaignDto);
+    const savedCampaign = await this.campaignRepository.save(campaign);
+    return this.toCampaignDto(savedCampaign);
+  }
+
+  async updateCampaign(
+    id: number,
+    updateCampaignDto: UpdateCampaignDto,
+  ): Promise<CampaignDto> {
+    await this.campaignRepository.update(id, updateCampaignDto);
+    return this.getCampaign(id);
+  }
+
+  private toCampaignDto(campaign: Campaign): CampaignDto {
+    return {
+      id: campaign.id,
+      title: campaign.title,
+      description: campaign.description,
+      status: campaign.status,
+      startDate: campaign.startDate,
+      endDate: campaign.endDate,
+      artist: {
+        id: campaign.artist.id,
+        name: campaign.artist.name,
+      },
+      materials: campaign.materials.map((mc) => ({
+        materialId: mc.material.id,
+        materialName: mc.material.name,
+        requiredAmount: mc.requiredAmount,
+        donatedAmount: mc.donatedAmount,
+        isFulfilled: mc.donatedAmount >= mc.requiredAmount,
+      })),
+    };
   }
 }
