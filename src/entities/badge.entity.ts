@@ -19,6 +19,9 @@ export class Badge {
   @Column()
   description: string;
 
+  @Column({ type: 'int' })
+  requiredCredit: number;
+
   @OneToMany(() => UserBadge, (userBadge) => userBadge.badge)
   userBadges: UserBadge[];
 }

@@ -18,6 +18,7 @@ export class UserBadge extends TimeStampEntity {
   @ManyToOne(() => User, (user) => user.badges)
   user: User;
 
+  @Column()
   @RelationId((userBadge: UserBadge) => userBadge.user)
   userId: number;
 

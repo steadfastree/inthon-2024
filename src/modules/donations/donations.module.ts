@@ -6,6 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MaterialDonation } from 'src/entities/material-donation.entity';
 import { Campaign } from 'src/entities/campaign.entity';
 import { PickupLocation } from 'src/entities/pickup-location.entity';
+import { Badge } from 'src/entities/badge.entity';
+import { UserBadge } from 'src/entities/user-badge.entity';
+import { User } from 'src/entities/user.entity';
+import { Material } from 'src/entities/material.entity';
+import { MaterialCampaign } from 'src/entities/material-campaign.entity';
 
 @Module({
   controllers: [DonationsController],
@@ -16,6 +21,11 @@ import { PickupLocation } from 'src/entities/pickup-location.entity';
       MaterialDonation,
       Campaign,
       PickupLocation,
+      Badge,
+      UserBadge,
+      User,
+      Material,
+      MaterialCampaign,
     ]),
   ],
 })

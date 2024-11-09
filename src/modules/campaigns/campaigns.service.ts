@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Campaign } from 'src/entities/campaign.entity';
@@ -117,8 +121,16 @@ export class CampaignsService {
     const campaign = await this.campaignRepository.findOneBy({
       id: campaignId,
     });
+
     if (!campaign) {
       throw new NotFoundException('캠페인을 찾을 수 없습니다.');
+    }
+
+    // 캠페인 상태 체크
+    if (campaign.status === CampaignStatus.FUNDING) {
+      throw new BadRequestException(
+        '제작 중이거나 완료된 캠페인에만 피드를 작성할 수 있습니다.',
+      );
     }
 
     // TODO: 실제 인증된 사용자 ID를 사용하도록 수정
