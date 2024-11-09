@@ -16,6 +16,9 @@ export class DonationDto {
   @ApiProperty({ description: '기부 ID' })
   id: number;
 
+  @ApiProperty({ description: '캠페인 ID' })
+  campaignId: number;
+
   @ApiProperty({ description: '예약 날짜' })
   reservedDate: Date;
 

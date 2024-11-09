@@ -12,6 +12,7 @@ export class CreateMaterialDonationDto {
 export class CreateDonationDto extends PickType(DonationDto, [
   'reservedDate',
   'pickupLocationId',
+  'campaignId',
 ] as const) {
   @ApiProperty({
     description: '기부할 재료 목록',
