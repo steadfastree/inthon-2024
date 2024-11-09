@@ -1,0 +1,23 @@
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UserBadge } from './user-badge.entity';
+
+@Entity()
+export class Badge extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  description: string;
+
+  @OneToMany(() => UserBadge, (userBadge) => userBadge.badge)
+  userBadges: UserBadge[];
+}
