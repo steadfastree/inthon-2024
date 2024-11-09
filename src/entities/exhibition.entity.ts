@@ -35,10 +35,10 @@ export class Exhibition extends TimeStampEntity {
   @Column()
   address: string;
 
-  @Column()
+  @Column('decimal')
   latitude: number;
 
-  @Column()
+  @Column('decimal')
   longitude: number;
 
   @OneToOne(() => Campaign, (campaign) => campaign.exhibition)
