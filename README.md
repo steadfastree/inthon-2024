@@ -1,73 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 리:아트 (Re:Art) - 예술품 기부 플랫폼 API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 프로젝트 소개
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+리:아트는 재활용품을 활용한 예술 프로젝트를 지원하는 플랫폼입니다. 주민들이 기부한 재활용품이 예술 작품으로 다시 태어나는 과정을 경험할 수 있으며, 예술가와 기부자를 연결하여 환경 보호와 예술 창작을 동시에 실현합니다.
 
-## Description
+## 주요 기능
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- 작품별 기부 캠페인 관리
+- 기부자 크레딧 시스템
+- 전시회 정보 제공
+- 위치 기반 전시 추천
 
-## Installation
+## 기술 스택
 
-```bash
-$ npm install
-```
+- NestJS
+- PostgreSQL
+- AWS EC2
+- AWS S3
+- Docker
+- Github Actions
+- Nginx
 
-## Running the app
+## API 문서
 
-```bash
-# development
-$ npm run start
+https://inthon.steadfastree.xyz/api
 
-# watch mode
-$ npm run start:dev
+## 디렉토리 구조
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+src
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+├── common
+│ ├── enums
+│ │ ├── campaign-status.enum.ts
+│ │ ├── donation-status.enum.ts
+│ │ ├── exhibition-status.enum.ts
+│ │ └── user-role.enum.ts
+│ └── utils
+│ └── date.util.ts
+├── entities
+│ ├── badge.entity.ts
+│ ├── campaign-feed.entity.ts
+│ ├── campaign.entity.ts
+│ ├── donation.entity.ts
+│ ├── exhibition.entity.ts
+│ ├── material-campaign.entity.ts
+│ ├── material-donation.entity.ts
+│ ├── material.entity.ts
+│ ├── pickup-location.entity.ts
+│ ├── time-stamp.entity.ts
+│ ├── user-badge.entity.ts
+│ └── user.entity.ts
+├── main.ts
+└── modules
+├── auth
+│ ├── auth.controller.ts
+│ ├── auth.module.ts
+│ ├── auth.service.ts
+│ └── dtos
+├── campaigns
+│ ├── campaigns.controller.ts
+│ ├── campaigns.module.ts
+│ ├── campaigns.service.ts
+│ └── dtos
+├── donations
+│ ├── donations.controller.ts
+│ ├── donations.module.ts
+│ ├── donations.service.ts
+│ └── dtos
+├── exhibitions
+│ ├── dtos
+│ ├── exhibitions.controller.ts
+│ ├── exhibitions.module.ts
+│ └── exhibitions.service.ts
+├── materials
+│ ├── dtos
+│ ├── materials.controller.ts
+│ ├── materials.module.ts
+│ └── materials.service.ts
+├── pickup-locations
+│ └── dtos
+└── users
+├── dtos
+├── users.controller.ts
+├── users.module.ts
+└── users.service.ts
