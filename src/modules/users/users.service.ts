@@ -55,9 +55,9 @@ export class UsersService {
   //   ];
   // }
 
-  async getCampaignsDonated(): Promise<CampaignDonatedDto[]> {
+  async getCampaignsDonated(userId: number): Promise<CampaignDonatedDto[]> {
     const donations = await this.donationRepository.find({
-      where: { userId: 1 },
+      where: { userId: userId },
       relations: ['materials', 'materials.material', 'campaign'],
     });
 

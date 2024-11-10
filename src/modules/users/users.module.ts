@@ -12,4 +12,4 @@ import { UserBadge } from 'src/entities/user-badge.entity';
   providers: [UsersService],
   imports: [TypeOrmModule.forFeature([User, Donation, Badge, UserBadge])],
 })
-export class UsersModule {}
+export class UsersModule { }

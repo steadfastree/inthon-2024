@@ -41,4 +41,4 @@ import { MaterialsModule } from './modules/materials/materials.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

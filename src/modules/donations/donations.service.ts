@@ -48,6 +48,7 @@ export class DonationsService {
   ) {}
 
   async createDonation(
+    userId: number,
     createDonationDto: CreateDonationDto,
   ): Promise<DonationDto> {
     // 캠페인 존재 여부 확인
@@ -72,7 +73,7 @@ export class DonationsService {
       pickupLocationId: createDonationDto.pickupLocationId,
       campaignId: createDonationDto.campaignId,
       status: DonationStatus.RESERVED,
-      userId: 1, // TODO: 실제 인증된 사용자 ID로 변경 필요
+      userId: userId, // TODO: 실제 인증된 사용자 ID로 변경 필요
     });
 
     // donation 저장
@@ -111,8 +112,9 @@ export class DonationsService {
     };
   }
 
-  async getDonations(): Promise<DonationDto[]> {
+  async getDonations(userId: number): Promise<DonationDto[]> {
     const donations = await this.donationRepository.find({
+      where: { userId },
       relations: ['materials', 'materials.material'],
     });
 
