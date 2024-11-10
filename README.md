@@ -35,59 +35,28 @@ src
 ├── app.module.ts
 ├── app.service.ts
 ├── common
-│ ├── enums
-│ │ ├── campaign-status.enum.ts
-│ │ ├── donation-status.enum.ts
-│ │ ├── exhibition-status.enum.ts
-│ │ └── user-role.enum.ts
-│ └── utils
-│ └── date.util.ts
+│   ├── enums
+│   └── utils
 ├── entities
-│ ├── badge.entity.ts
-│ ├── campaign-feed.entity.ts
-│ ├── campaign.entity.ts
-│ ├── donation.entity.ts
-│ ├── exhibition.entity.ts
-│ ├── material-campaign.entity.ts
-│ ├── material-donation.entity.ts
-│ ├── material.entity.ts
-│ ├── pickup-location.entity.ts
-│ ├── time-stamp.entity.ts
-│ ├── user-badge.entity.ts
-│ └── user.entity.ts
+│   ├── badge.entity.ts
+│   ├── campaign-feed.entity.ts
+│   ├── campaign.entity.ts
+│   ├── donation.entity.ts
+│   ├── exhibition.entity.ts
+│   ├── material-campaign.entity.ts
+│   ├── material-donation.entity.ts
+│   ├── material.entity.ts
+│   ├── pickup-location.entity.ts
+│   ├── time-stamp.entity.ts
+│   ├── user-badge.entity.ts
+│   └── user.entity.ts
 ├── main.ts
 └── modules
-├── auth
-│ ├── auth.controller.ts
-│ ├── auth.module.ts
-│ ├── auth.service.ts
-│ └── dtos
-├── campaigns
-│ ├── campaigns.controller.ts
-│ ├── campaigns.module.ts
-│ ├── campaigns.service.ts
-│ └── dtos
-├── donations
-│ ├── donations.controller.ts
-│ ├── donations.module.ts
-│ ├── donations.service.ts
-│ └── dtos
-├── exhibitions
-│ ├── dtos
-│ ├── exhibitions.controller.ts
-│ ├── exhibitions.module.ts
-│ └── exhibitions.service.ts
-├── materials
-│ ├── dtos
-│ ├── materials.controller.ts
-│ ├── materials.module.ts
-│ └── materials.service.ts
-├── pickup-locations
-│ └── dtos
-└── users
-├── dtos
-├── users.controller.ts
-├── users.module.ts
-└── users.service.ts
-
+    ├── auth
+    ├── campaigns
+    ├── donations
+    ├── exhibitions
+    ├── materials
+    ├── pickup-locations
+    └── users
 ```
