@@ -30,16 +30,19 @@ export class ExhibitionsService {
       address: exhibition.address,
       latitude: exhibition.latitude,
       longitude: exhibition.longitude,
-      campaign: {
-        id: exhibition.campaign.id,
-        title: exhibition.campaign.title,
-        description: exhibition.campaign.description,
-        startDate: formatToKST.dateTime(exhibition.campaign.startDate),
-        endDate: formatToKST.dateTime(exhibition.campaign.endDate),
-        status: exhibition.campaign.status,
-        artist: exhibition.campaign.artist,
-        materials: [],
-      },
+      imageUrl: exhibition.imageUrl,
+      campaign: exhibition.campaign
+        ? {
+            id: exhibition.campaign.id,
+            title: exhibition.campaign.title,
+            description: exhibition.campaign.description,
+            startDate: formatToKST.dateTime(exhibition.campaign.startDate),
+            endDate: formatToKST.dateTime(exhibition.campaign.endDate),
+            status: exhibition.campaign.status,
+            artist: exhibition.campaign.artist,
+            materials: [],
+          }
+        : undefined,
     };
   }
 

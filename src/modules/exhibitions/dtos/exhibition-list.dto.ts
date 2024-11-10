@@ -7,6 +7,7 @@ export class ExhibitionListDto extends PickType(ExhibitionDto, [
   'description',
   'startDate',
   'endDate',
+  'imageUrl',
   'status',
   'address',
   'latitude',

@@ -40,6 +40,9 @@ export class Campaign extends TimeStampEntity {
   @Column()
   endDate: Date;
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
   @ManyToOne(() => User, (user) => user.campaigns)
   artist: User;
 

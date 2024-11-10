@@ -26,7 +26,7 @@ export class UsersController {
   })
   @UseGuards(AuthGuard('jwt'), UserGuard)
   @Get()
-  getMyPage(@Request() req): Promise<UserDto> {
+  getMyPage(@Req() req): Promise<UserDto> {
     return this.usersService.getMyPage(req.user.id);
   }
 
